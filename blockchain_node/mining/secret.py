@@ -1,0 +1,1 @@
+csrf_token_secret = "비밀번호다"
