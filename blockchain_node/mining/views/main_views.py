@@ -134,3 +134,18 @@ def mining_stop():
         return jsonify({'status': 'stopped'}), 200
     
     return jsonify({'status': 'fail to stop'})
+
+
+@bp.route('resolve_conflict/', methods=['GET'])
+def resolve_conflict():
+    '''가장 긴 블록 찾아서 검증 -> 교체
+        호출시기: 개별 노드가 채굴에 성공한 경우
+        실행순서: 채굴 성공 -> 블록 생성 -> 이웃 노드에게 resolve_conflict 요청
+    '''
+
+    #TODO: consensus algorithm 코딩 (resolve_conflict)
+    
+    return jsonify({
+        'status': 'success', 
+        'content': 'resolve_conflict'
+        }), 200

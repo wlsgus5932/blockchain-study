@@ -1,22 +1,30 @@
 import os
 import requests
 
-from p2p.secret import CSRF_TOKEN_SECRET
+from p2p.secret import csrf_token_secret
 
 BASE_DIR = os.path.dirname(__file__)
 
-# SQLALCHEMY가 사용할 DB 주소
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'p2p.db')
+# SQLAlchemy 사용할 DB 접속 주소
+SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(
+    os.path.join(BASE_DIR, 'p2p.db')
+)
 
-# CSRF TOKEN SECRET KEY
-SECRET_KEY = CSRF_TOKEN_SECRET
+# CSRF TOKEN secret key
+SECRET_KEY = csrf_token_secret
 
-# 자신의 공인 IP를 확인하기 위해 사용하는 SERVICE PROVIDER
+# 자신의 공인 아이피를 확인하기 위해 이용하는 서비스 프로바이더
+# Other possible service providers
+#   - https://ident.me
+#   - https://api.ipify.org
+#   - https://myip.dnsomatic.com
 IP_CHECK_SERVICE_PROVIDER = 'https://checkip.amazonaws.com'
 
-MY_PUBLIC_IP = requests.get(IP_CHECK_SERVICE_PROVIDER)
+# My Host Information
+MY_PUBLIC_IP = requests.get(IP_CHECK_SERVICE_PROVIDER).text.strip()
 
-SEED_NODE_IP = MY_PUBLIC_IP.text.strip()
+# Seed Node IP addr
+SEED_NODE_IP = '1.225.213.115'
 
-# P2P NETWORK PORT
+# P2P Network Port Number
 PORT_P2P = '22901'
