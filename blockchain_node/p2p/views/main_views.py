@@ -22,13 +22,14 @@ def update() -> dict:
     '''DB에 노드 정보를 업데이트'''
 
     # 요청 노드 정보 업데이트, 없으면 새로 만들어서 추가
-    if request.method == 'GET':
-        client_ip = request.args.get('ip')
-        client_port = request.args.get('port')
+    client_ip = request.args.get('ip')
+    client_port = request.args.get('port')
     
-    if request.method == 'PUT':
-        client_ip = request.json.get('ip')
-        client_port = request.json.get('port')
+    print(f'ip: {client_ip}, port: {client_port}')
+    
+    # if request.method == 'PUT':
+    #     client_ip = request.json.get('ip')
+    #     client_port = request.json.get('port')
 
     # 요청자가 IP 또는 PORT 정보를 보내지 않았을 경우 처리
     if not client_ip or not client_port:

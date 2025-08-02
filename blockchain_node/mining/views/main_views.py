@@ -10,6 +10,7 @@ from mining.utils.blockchain_utils import (
     get_blockchain,
     calculate_total_amount,
 )
+from mining.blockchain import BlockChain
 from mining.transfrer import Transfer
 from mining.mining import Mine
 from mining import config
@@ -106,6 +107,7 @@ def mining():
 @bp.route('/mining/start', methods=['POST'])
 def mining_start():
     '''연속채굴 시작'''
+    config.MINING_ACTIVE = True
     json_data = request.json
     recv_blockcain_addr = json_data['blockchain_addr']
     mine = Mine()
@@ -117,6 +119,7 @@ def mining_start():
 @bp.route('/mining/stop', methods=['POST'])
 def mining_stop():
     '''채굴 중단'''
+    config.MINING_ACTIVE = False
     json_data = request.json
     stop_flag = json_data['stop_flag']
     if stop_flag == 'stop':
@@ -136,16 +139,24 @@ def mining_stop():
     return jsonify({'status': 'fail to stop'})
 
 
-@bp.route('resolve_conflict/', methods=['GET'])
+@bp.route('/resolve_conflict/', methods=['GET'])
 def resolve_conflict():
     '''가장 긴 블록 찾아서 검증 -> 교체
         호출시기: 개별 노드가 채굴에 성공한 경우
         실행순서: 채굴 성공 -> 블록 생성 -> 이웃 노드에게 resolve_conflict 요청
     '''
-
-    #TODO: consensus algorithm 코딩 (resolve_conflict)
+    blockchain = BlockChain()
+    resolve_conflict = blockchain.resolve_conflict()
     
     return jsonify({
-        'status': 'success', 
+        'status': 'success' if resolve_conflict else 'fail', 
         'content': 'resolve_conflict'
         }), 200
+
+
+@bp.route('/is_mining_active/', methods=['GET'])
+def is_mining_active():
+    '''현재 채굴 중인지 확인'''
+    if config.MINING_ACTIVE is True:
+        return jsonify({'status': 'mining_active'})
+    return jsonify({'status': 'mining_stop'})

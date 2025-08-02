@@ -119,6 +119,5 @@ def valid_proof(
     )
 
     guess_block_hash = hash(guess_block)
-    print(f'guess_block_hash: {guess_block_hash}')
     result = guess_block_hash[:MINING_DIFFICULTY] == '0'*MINING_DIFFICULTY
     return result

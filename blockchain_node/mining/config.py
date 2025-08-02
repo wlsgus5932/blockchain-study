@@ -48,3 +48,6 @@ PORT_P2P = '22901'
 
 # Mining Node Port Number
 PORT_MINING = '7001'
+
+# 채굴 상태를 확인 (채굴중, 채굴중단)
+MINING_ACTIVE = False

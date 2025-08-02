@@ -67,9 +67,10 @@ class Mine:
                     'ip': config.MY_PUBLIC_IP,
                     'port': config.PORT_P2P
                 }
+                print(f'json::::{json_data}')
                 try:
                     url_update = f'http://{neighbor["ip"]}:{neighbor["port"]}/update'
-                    resp = requests.get(url_update, json=json_data, timeout=2)
+                    resp = requests.get(url_update, params=json_data, timeout=2)
                     if resp.status_code != 200:
                         print(f'Sync neighbor fail on {url_update}')
                 except:
